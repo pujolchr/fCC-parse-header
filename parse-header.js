@@ -1,12 +1,11 @@
-#! /usr/bin/env nodejs
+#! /usr/bin/env node
 
-'use strict';
+// FIXME: need a nice comment for documentation here
+// TODO: some output on process.stdout for loging
 
 const path = require('path');
-const url = require('url');
 const http = require('http');
-const fs = require('fs');
-const dns = require('dns');
+const useragent = require('useragent');
 
 if (process.argv.length !== 3) {
   process.stderr.write(`usage: ${path.basename(process.argv[1])} port\n`);
@@ -18,16 +17,31 @@ const sendResponse = (r, data) => {
   r.write(JSON.stringify(data));
   r.end();
 };
- 
+
 const server = http.createServer((req, res) => {
-  let payload = {};
-  console.log(req.headers);
-  payload['user-agent'] = req.headers['user-agent'];
-  payload.language = req.headers['accept-language'];
-  dns.resolve4(req.headers.host.replace(/:.*$/, ''), addr => {
-    payload.ip = addr;
-    sendResponse(res, payload);
-  });
+  const payload = {};
+
+  // get the os
+  payload.software = useragent.parse(req.headers['user-agent']).os.family;
+
+  // get the language if any
+  const language = req.headers['accept-language'];
+  if (language) {
+    [payload.language] = language.split(',');
+  } else {
+    payload.language = null;
+  }
+
+  // find the IP adress
+  payload.ip = req.headers['x-forwarded-for']
+    || req.connection.remoteAddress
+    || req.socket.remoteAddress
+    || req.connection.socket.remoteAddress;
+
+  // if x-forwarded-for supress the proxies
+  payload.ip = payload.ip.replace(/,.*$/, '');
+
+  sendResponse(res, payload);
 });
 
 server.listen(process.argv[2]);

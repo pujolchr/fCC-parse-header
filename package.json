@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/pujolchr/fCC-parse-header/issues"
   },
-  "homepage": "https://github.com/pujolchr/fCC-parse-header#readme"
+  "homepage": "https://github.com/pujolchr/fCC-parse-header#readme",
+  "dependencies": {
+    "useragent": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
 }
