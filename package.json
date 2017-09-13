@@ -1,0 +1,20 @@
+{
+  "name": "@pujolchr/fcc-parse-header",
+  "version": "1.0.0",
+  "description": "freeCodeCamp API project:Request Header Parser Microservice",
+  "main": "parse-header.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node parse-header.js 80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pujolchr/fCC-parse-header.git"
+  },
+  "author": "Christian Pujol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pujolchr/fCC-parse-header/issues"
+  },
+  "homepage": "https://github.com/pujolchr/fCC-parse-header#readme"
+}
